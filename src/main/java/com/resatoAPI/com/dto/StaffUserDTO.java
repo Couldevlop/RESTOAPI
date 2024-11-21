@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StaffUser {
+public class StaffUserDTO {
         private Long id;
         private String email;
         private long contact;

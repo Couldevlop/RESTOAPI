@@ -17,5 +17,5 @@ public class DishDTO {
     private String ingerdients;
     private double price;
     private String image;
-    private Category category;
+    private Long categoryId;
 }

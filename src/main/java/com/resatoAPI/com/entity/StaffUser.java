@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class StaffUser {
     private Long id;
     private String email;
     private long contact;
