@@ -1,13 +1,14 @@
-package com.resatoAPI.com.service;
+package com.resatoAPI.com.service.impl;
 
 import com.resatoAPI.com.dto.OrderDTO;
 import com.resatoAPI.com.repository.OrderRepository;
+import com.resatoAPI.com.service.OrderService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
 
     public OrderServiceImpl(OrderRepository orderRepository) {

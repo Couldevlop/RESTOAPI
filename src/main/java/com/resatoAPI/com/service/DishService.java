@@ -1,11 +1,13 @@
 package com.resatoAPI.com.service;
 
+import com.resatoAPI.com.dto.DishDTO;
+
 import java.util.List;
 
 public interface DishService {
-    DishService save (DishService dto);
-    DishService findById(Long id);
-    List<DishService> getAll();
-    DishService update(Long id, DishService dto);
+    DishDTO save (DishDTO dto);
+    DishDTO findById(Long id);
+    List<DishDTO> getAll();
+    DishDTO update(Long id, DishDTO dto);
     void deleteById(Long id);
 }

@@ -9,8 +9,6 @@ import com.resatoAPI.com.entity.Dish;
 import com.resatoAPI.com.entity.Order;
 import com.resatoAPI.com.entity.OrderItem;
 import com.resatoAPI.com.enums.Status;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
@@ -75,5 +73,17 @@ public class ObjectMapper {
                  .orderType(orderItem.getOrderType())
                  .price(orderItem.getPrice())
                  .build();
+    }
+
+
+    public OrderItem dtoToOrderItem(OrderItemDTO dto){
+       return OrderItem.builder()
+               .id(dto.getId())
+               .image(dto.getImage())
+               .name(dto.getName())
+               .orderType(dto.getOrderType())
+               .price(dto.getPrice())
+               .quantity(dto.getQuantity())
+               .build();
     }
 }
