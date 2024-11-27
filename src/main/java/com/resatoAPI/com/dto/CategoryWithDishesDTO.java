@@ -1,8 +1,5 @@
 package com.resatoAPI.com.dto;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
 import lombok.*;
 
 import java.util.List;
@@ -12,7 +9,8 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDTO {
+public class CategoryWithDishesDTO {
     private Long id;
     private String name;
+    private List<DishDTO> dishes;
 }

@@ -4,5 +4,5 @@ import com.resatoAPI.com.entity.Dish;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DishRepository extends JpaRepository<Dish, Long> {
-    Boolean findByName(String name);
+    Boolean existsByName(String name);
 }

@@ -3,7 +3,7 @@ package com.resatoAPI.com.entity;
 import jakarta.persistence.Entity;
 import lombok.*;
 
-@Entity
+
 @Builder
 @Setter
 @Getter

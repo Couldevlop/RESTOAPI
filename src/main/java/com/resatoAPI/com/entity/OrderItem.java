@@ -1,5 +1,6 @@
 package com.resatoAPI.com.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,4 +22,6 @@ public class OrderItem {
     private String orderType;
     private double price;
     private int quantity;
+    @JsonIgnore
+    private Long orderId;
 }

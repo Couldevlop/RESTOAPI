@@ -1,9 +1,6 @@
 package com.resatoAPI.com.mapper;
 
-import com.resatoAPI.com.dto.CategoryDTO;
-import com.resatoAPI.com.dto.DishDTO;
-import com.resatoAPI.com.dto.OrderDTO;
-import com.resatoAPI.com.dto.OrderItemDTO;
+import com.resatoAPI.com.dto.*;
 import com.resatoAPI.com.entity.Category;
 import com.resatoAPI.com.entity.Dish;
 import com.resatoAPI.com.entity.Order;
@@ -17,23 +14,39 @@ import java.util.stream.Collectors;
 @Component
 public class ObjectMapper {
 
-   public CategoryDTO categoryToDTO(Category category){
+   /*public CategoryDTO categoryToDTO(Category category){
          return CategoryDTO.builder()
                  .id(category.getId())
                  .name(category.getName())
                  .dishes(category.getDishes() != null ? category.getDishes().stream().map(this::dishToDTO ).collect(Collectors.toList()) : null)
                  .build();
+    }*/
+
+    public CategoryDTO categoryToDTO(Category category){
+         return CategoryDTO.builder()
+                 .id(category.getId())
+                 .name(category.getName())
+                 .build();
     }
 
-    public Category dtoToCategory(CategoryDTO dto){
+    /*public Category dtoToCategory(CategoryDTO dto){
         return Category.builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .dishes(dto.getDishes() != null ? dto.getDishes().stream().map(this::dtoToDish).collect(Collectors.toList()) : null)
                 .build();
+    }*/
+
+
+
+    public Category dtoToCategory(CategoryDTO dto){
+        return Category.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .build();
     }
 
-
+    // Convertit un Dish en DishDTO
    public DishDTO dishToDTO(Dish dish){
          return DishDTO.builder()
                  .id(dish.getId())
@@ -41,7 +54,7 @@ public class ObjectMapper {
                  .image(dish.getImage())
                  .description(dish.getDescription())
                  .ingerdients(dish.getIngerdients())
-                 .categoryId(dish.getId())
+                 .categoryId(dish.getCategory() !=null ? dish.getCategory().getId(): null)
                  .build();    }
 
    public Dish dtoToDish(DishDTO dto){
@@ -54,8 +67,23 @@ public class ObjectMapper {
                 .build();
    }
 
+    // Convertit une entité Category en CategoryWithDishesDTO
+    public CategoryWithDishesDTO categoryToWithDishesDTO(Category category) {
+        return CategoryWithDishesDTO.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .dishes(
+                        category.getDishes() != null
+                                ? category.getDishes().stream()
+                                .map(this::dishToDTO)
+                                .collect(Collectors.toList())
+                                : null
+                )
+                .build();
+    }
 
-    public OrderDTO OrderToDTO(Order order) {
+
+    public OrderDTO orderToDTO(Order order) {
          return OrderDTO.builder()
                  .id(order.getId())
                  .tableNumber(order.getTableNumber())
@@ -63,6 +91,14 @@ public class ObjectMapper {
                          order.getItems().stream().map(this::orderItemToDTO).collect(Collectors.toList()) : null)
                  .status(order.getStatus() != null ? order.getStatus() : Status.EN_ATTENTE)
                  .build();
+    }
+
+    public Order dtoToOrder(OrderDTO dto){
+        return Order.builder()
+                .tableNumber(dto.getTableNumber())
+                .status(dto.getStatus())
+                .items(dto.getItems() != null ? dto.getItems().stream().map(this::dtoToOrderItem).collect(Collectors.toList()) : null)
+                .build();
     }
 
     public OrderItemDTO orderItemToDTO(OrderItem orderItem){

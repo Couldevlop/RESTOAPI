@@ -1,11 +1,14 @@
 package com.resatoAPI.com.service.impl;
 
 import com.resatoAPI.com.dto.CategoryDTO;
+import com.resatoAPI.com.dto.CategoryWithDishesDTO;
 import com.resatoAPI.com.entity.Category;
+import com.resatoAPI.com.entity.Dish;
 import com.resatoAPI.com.mapper.ObjectMapper;
 import com.resatoAPI.com.repository.CategoryRepository;
 import com.resatoAPI.com.service.CategoryService;
 import com.resatoAPI.com.validators.CategoryValidator;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,25 +42,51 @@ public class CategoryServiceImpl implements CategoryService {
         return mapper.categoryToDTO(category);
     }
 
+    public CategoryWithDishesDTO getCategoryWithDishes(Long id){
+        Category category = categoryValidator.findCategoryOrThrow(id);
+        return mapper.categoryToWithDishesDTO(category);
+    }
+
     @Override
     public List<CategoryDTO> getAll() {
         return categoryRepository.findAll().stream().map(mapper::categoryToDTO).collect(Collectors.toList());
     }
 
+
+
     @Override
-    public CategoryDTO update(Long id, CategoryDTO dto) {
-        categoryValidator.validateUpdateRequest(id, dto);
+    public CategoryWithDishesDTO update(Long id, CategoryWithDishesDTO dto) {
+        // 1. Validation des données d'entrée
+        categoryValidator.validateUpdateRequestWithDish(id, dto);
+
+        // 2. Récupérer la catégorie existante
         Category existingCategory = categoryValidator.findCategoryOrThrow(id);
-       existingCategory.setName(dto.getName());
 
-       if(dto.getDishes() != null){
-           existingCategory.setDishes(dto.getDishes().stream().map(mapper::dtoToDish).collect(Collectors.toList()));
-       }
+        // 3. Mise à jour des champs simples de la catégorie
+        existingCategory.setName(dto.getName());
 
 
-        Category updateCategory = categoryRepository.save(existingCategory);
-        return mapper.categoryToDTO(updateCategory);
+        // 4. Gestion des Dishes associés
+        if (dto.getDishes() != null) {
+            // Nettoyer les `Dishes` existants (JPA gère les suppressions grâce à orphanRemoval)
+            existingCategory.getDishes().clear();
+
+            // Ajouter ou mettre à jour les nouveaux `Dishes`
+            dto.getDishes().forEach(dishDTO -> {
+                Dish dish = mapper.dtoToDish(dishDTO);
+                dish.setCategory(existingCategory); // Lier chaque Dish à la Category
+                existingCategory.getDishes().add(dish);
+            });
+        }
+
+        // 5. Enregistrer les modifications
+        Category updatedCategory = categoryRepository.save(existingCategory);
+
+        // 6. Retourner un DTO enrichi avec les Dishes mis à jour
+        return mapper.categoryToWithDishesDTO(updatedCategory);
     }
+
+
 
     @Override
     public void deleteById(Long id) {

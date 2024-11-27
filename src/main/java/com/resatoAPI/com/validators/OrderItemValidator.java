@@ -37,7 +37,7 @@ public class OrderItemValidator {
 
     public OrderItem findOrderItemOrThrow(Long id){
         return orderItemRepository.findById(id).orElseThrow(()->
-                new OrderItemNotFoundException("The OrderItem with ID " + id + "not found in DB"))
+                new OrderItemNotFoundException("The OrderItem with ID " + id + "not found in DB"));
     }
 
     public void validateUpdateRequest(Long id, OrderItemDTO dto){

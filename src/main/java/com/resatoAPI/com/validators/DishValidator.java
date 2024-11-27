@@ -29,7 +29,7 @@ public class DishValidator {
     }
 
     public void checkIfDishExists(String name){
-        if(dishRepository.findByName(name)){
+        if(dishRepository.existsByName(name)){
             throw new DishAlReadyException("Dish already exists in DB");
         }
     }

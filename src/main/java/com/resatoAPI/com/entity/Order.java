@@ -1,9 +1,7 @@
 package com.resatoAPI.com.entity;
 
 import com.resatoAPI.com.enums.Status;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -15,9 +13,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String tableNumber;
+    @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items;
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private Status status;
 }
