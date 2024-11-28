@@ -14,7 +14,7 @@ public class DishDTO {
     private Long id;
     private String name;
     private String description;
-    private String ingerdients;
+    private String ingredients;
     private double price;
     private String image;
     private Long categoryId;

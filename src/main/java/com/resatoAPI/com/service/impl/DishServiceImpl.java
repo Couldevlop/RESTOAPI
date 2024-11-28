@@ -55,7 +55,7 @@ public class DishServiceImpl implements DishService {
         existingDish.setName(dto.getName());
         existingDish.setImage(dto.getImage());
         existingDish.setPrice(dto.getPrice());
-        existingDish.setIngerdients(dto.getIngerdients());
+        existingDish.setIngredients(dto.getIngredients());
         Category category = categoryValidator.findCategoryOrThrow(dto.getId());
         existingDish.setCategory(category);
         Dish disSaved = dishRepository.save(existingDish);

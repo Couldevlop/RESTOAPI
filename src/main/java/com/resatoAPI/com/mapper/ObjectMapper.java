@@ -53,19 +53,28 @@ public class ObjectMapper {
                  .price(dish.getPrice())
                  .image(dish.getImage())
                  .description(dish.getDescription())
-                 .ingerdients(dish.getIngerdients())
+                 .ingredients(dish.getIngredients())
                  .categoryId(dish.getCategory() !=null ? dish.getCategory().getId(): null)
                  .build();    }
 
-   public Dish dtoToDish(DishDTO dto){
+
+
+
+    public Dish dtoToDish(DishDTO dto) {
         return Dish.builder()
                 .price(dto.getPrice())
+                .name(dto.getName())
                 .image(dto.getImage())
-                .ingerdients(dto.getIngerdients())
+                .ingredients(dto.getIngredients()) // Fixed typo
                 .description(dto.getDescription())
-                .category(dto.getCategoryId() != null ? Category.builder() .id(dto.getId()).build() : null)
+                .category(dto.getCategoryId() != null ?
+                        Category.builder()
+                                .id(dto.getCategoryId()) // Corrected to use getCategoryId()
+                                .build()
+                        : null)
                 .build();
-   }
+    }
+
 
     // Convertit une entité Category en CategoryWithDishesDTO
     public CategoryWithDishesDTO categoryToWithDishesDTO(Category category) {
