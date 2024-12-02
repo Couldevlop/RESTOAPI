@@ -50,6 +50,7 @@ public class ObjectMapper {
    public DishDTO dishToDTO(Dish dish){
          return DishDTO.builder()
                  .id(dish.getId())
+                 .name(dish.getName())
                  .price(dish.getPrice())
                  .image(dish.getImage())
                  .description(dish.getDescription())

@@ -28,6 +28,11 @@ public class DishController {
         return ResponseEntity.ok(dishService.getAll());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<DishDTO> findByID(@PathVariable Long id){
+        return ResponseEntity.ok(dishService.findById(id));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<DishDTO> getById(@PathVariable Long id, @RequestBody DishDTO dto){
         return ResponseEntity.ok(dishService.update(id, dto));

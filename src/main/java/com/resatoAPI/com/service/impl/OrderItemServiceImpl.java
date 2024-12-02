@@ -23,13 +23,23 @@ public class OrderItemServiceImpl implements OrderItemService {
         this.mapper = mapper;
     }
 
-    @Override
+   /* @Override
     public OrderItemDTO save(OrderItemDTO dto) {
         orderItemValidator.validateOrderItemDTO(dto);
         OrderItem orderItem = mapper.dtoToOrderItem(dto);
         OrderItem orderItemSaved = orderItemRepository.save(orderItem);
         return mapper.orderItemToDTO(orderItemSaved);
+    }*/
+
+    @Override
+    public OrderItemDTO save(OrderItemDTO dto) {
+        orderItemValidator.validateOrderItemDTO(dto); // Valider les champs nécessaires
+        OrderItem orderItem = mapper.dtoToOrderItem(dto); // Mapper le DTO vers l’entité
+        orderItem.setOrder(null); // Pas de lien avec un Order pour l'instant
+        OrderItem orderItemSaved = orderItemRepository.save(orderItem);
+        return mapper.orderItemToDTO(orderItemSaved);
     }
+
 
     @Override
     public OrderItemDTO findById(Long id) {

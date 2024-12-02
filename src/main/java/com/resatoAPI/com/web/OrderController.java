@@ -42,4 +42,9 @@ public class OrderController {
     public ResponseEntity<String> deleteById(@PathVariable Long id){
         return ResponseEntity.ok("Supprimé avec succès");
     }
+
+    @GetMapping("/total-sum")
+    public ResponseEntity<Double> getTotalOrdersSum() {
+        return ResponseEntity.ok(orderService.getTotalForServedOrders());
+    }
 }

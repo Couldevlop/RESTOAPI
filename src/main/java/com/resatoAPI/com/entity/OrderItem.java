@@ -20,6 +20,7 @@ public class OrderItem {
     private String orderType;
     private double price;
     private int quantity;
-    @JsonIgnore
-    private Long orderId;
+   @ManyToOne
+   @JoinColumn(name = "orderId", nullable = true)
+    private Order order;
 }

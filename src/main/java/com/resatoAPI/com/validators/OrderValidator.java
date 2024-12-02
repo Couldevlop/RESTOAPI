@@ -29,7 +29,9 @@ public class OrderValidator {
     }
 
     public Order findOrderOrThrow(Long id){
-        throw new OrderItemNotFoundException("The order with ID " + id + " not found in DB");
+        return  orderRepository.findById(id).orElseThrow(() ->
+                new OrderItemNotFoundException("The order with ID " + id + " not found in DB"));
+
     }
 
     public void validateUpdateRequest(Long id, OrderDTO dto){

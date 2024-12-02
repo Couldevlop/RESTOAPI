@@ -10,4 +10,5 @@ public interface OrderService {
     List<OrderDTO> getAll();
     OrderDTO update(Long id, OrderDTO dto);
     void deleteById(Long id);
+    double getTotalForServedOrders();
 }
