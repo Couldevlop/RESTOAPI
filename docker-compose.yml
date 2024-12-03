@@ -7,43 +7,34 @@ services:
       dockerfile: Dockerfile
     container_name: java_app
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/${MYSQL_DATABASE}?serverTimezone=UTC&useLegacyDatetimeCode=false
-      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
-      SERVER_PORT: 4000
+      - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_db:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
+      - SERVER_PORT=4000
     ports:
-      - "4000:4000"  # Added explicit port mapping
+      - "4000:4000"
     depends_on:
-      db:
-        condition: service_healthy  # Wait for db to be healthy
+      - mysql_db
     networks:
-      - app_network
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-          cpus: "0.5"
+      - resto_network
     restart: unless-stopped
 
-  db:
+  mysql_db:
     image: mysql:8.0
     container_name: mysql_db
+    command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
-      - "3306:3306"  # Added for debugging
+      - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
-      - app_network
+      - resto_network
     restart: unless-stopped
 
   nginx:
@@ -57,12 +48,14 @@ services:
     depends_on:
       - app
     networks:
-      - app_network
+      - resto_network
     restart: unless-stopped
 
 networks:
-  app_network:
+  resto_network:
+    name: resto_network
     driver: bridge
 
 volumes:
   db_data:
+    name: resto_db_data
