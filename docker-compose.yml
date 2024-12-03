@@ -38,7 +38,7 @@ services:
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
-      retries: 3
+      retries: 5
     networks:
       - app_network
     restart: unless-stopped
