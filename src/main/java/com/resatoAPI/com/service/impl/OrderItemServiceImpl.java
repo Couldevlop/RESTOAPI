@@ -53,15 +53,21 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemRepository.findAll().stream().map(mapper::orderItemToDTO).collect(Collectors.toList());
     }
 
-    @Override
     public OrderItemDTO update(Long id, OrderItemDTO dto) {
         orderItemValidator.validateUpdateRequest(id, dto);
         OrderItem existingOrderItem = orderItemValidator.findOrderItemOrThrow(id);
+
+        // Mettez à jour uniquement les champs nécessaires
         existingOrderItem.setOrderType(dto.getOrderType());
         existingOrderItem.setName(dto.getName());
         existingOrderItem.setPrice(dto.getPrice());
         existingOrderItem.setImage(dto.getImage());
         existingOrderItem.setQuantity(dto.getQuantity());
+
+        // Assurez-vous que la relation reste inchangée
+        existingOrderItem.setOrder(existingOrderItem.getOrder());
+
+        // Sauvegardez et mappez la réponse
         OrderItem orderItemSaved = orderItemRepository.save(existingOrderItem);
         return mapper.orderItemToDTO(orderItemSaved);
     }
