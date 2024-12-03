@@ -12,7 +12,10 @@ import com.resatoAPI.com.validators.OrderValidator;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -44,6 +47,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setTableNumber(dto.getTableNumber());
         order.setStatus(dto.getStatus());
+        order.setOrderDate(LocalDate.now());
 
         // Associer les OrderItem existants au nouvel Order
         if (dto.getItems() != null && !dto.getItems().isEmpty()) {
@@ -104,6 +108,7 @@ public class OrderServiceImpl implements OrderService {
             // Supprimer les items obsolètes
             itemsToRemove.forEach(item -> item.setOrder(null)); // Détacher avant suppression
             existingOrder.getItems().removeAll(itemsToRemove);
+            existingOrder.setOrderDate(dto.getOrderDate());
 
             // Ajouter ou mettre à jour les items restants
             for (OrderItem incomingItem : incomingItems) {

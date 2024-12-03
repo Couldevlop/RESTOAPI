@@ -97,6 +97,7 @@ public class ObjectMapper {
          return OrderDTO.builder()
                  .id(order.getId())
                  .tableNumber(order.getTableNumber())
+                 .orderDate(order.getOrderDate())
                  .items(order.getItems() !=null ?
                          order.getItems().stream().map(this::orderItemToDTO).collect(Collectors.toList()) : null)
                  .status(order.getStatus() != null ? order.getStatus() : Status.EN_ATTENTE)
@@ -107,6 +108,7 @@ public class ObjectMapper {
         return Order.builder()
                 .tableNumber(dto.getTableNumber())
                 .status(dto.getStatus())
+                .orderDate(dto.getOrderDate())
                 .items(dto.getItems() != null ? dto.getItems().stream().map(this::dtoToOrderItem).collect(Collectors.toList()) : null)
                 .build();
     }
@@ -118,6 +120,7 @@ public class ObjectMapper {
                  .name(orderItem.getName())
                  .orderType(orderItem.getOrderType())
                  .price(orderItem.getPrice())
+                 .quantity(orderItem.getQuantity())
                  .build();
     }
 

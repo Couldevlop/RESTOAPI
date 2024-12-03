@@ -40,6 +40,7 @@ public class OrderController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(@PathVariable Long id){
+        orderService.deleteById(id);
         return ResponseEntity.ok("Supprimé avec succès");
     }
 
