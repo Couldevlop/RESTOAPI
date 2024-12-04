@@ -43,6 +43,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
+      - ./scripts/init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql:ro
     networks:
       - resto_network
     restart: unless-stopped
