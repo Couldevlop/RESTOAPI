@@ -5,7 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: java_app
+    container_name: resto_API
+    volumes:
+      - ./frontend/build:/app/frontend/build
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_db:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false
@@ -16,9 +18,18 @@ services:
       - "4000:4000"
     depends_on:
       - mysql_db
+      - frontend
     networks:
       - resto_network
     restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: resto_ui
+    ports:
+      - "3000:3000"
 
   mysql_db:
     image: mysql:8.0
@@ -26,13 +37,12 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sql:ro
     networks:
       - resto_network
     restart: unless-stopped
