@@ -42,11 +42,12 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh:ro
-      - ./scripts/init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql:ro
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      retries: 5
     networks:
       - resto_network
-    restart: unless-stopped
 
   nginx:
     image: nginx:latest
