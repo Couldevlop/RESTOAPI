@@ -26,7 +26,7 @@ public class RestoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Category category = Category.builder()
+		/*Category category = Category.builder()
 				.name("ENTREE")
 				.dishes(null)
 				.build();
@@ -49,7 +49,7 @@ public class RestoApplication implements CommandLineRunner {
 		categoryRepository.save(category);
 		categoryRepository.save(category1);
 		categoryRepository.save(category2);
-		categoryRepository.save(category3);
+		categoryRepository.save(category3);*/
 
 	}
 
