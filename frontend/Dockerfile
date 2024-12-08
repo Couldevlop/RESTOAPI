@@ -1,4 +1,4 @@
-FROM node:22.12-alpine
+FROM node:22-alpine
 
 # Cloner le frontend depuis le dépôt Git
 RUN apk add --no-cache git && \
