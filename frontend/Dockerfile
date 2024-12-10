@@ -1,16 +1,28 @@
-FROM node:18-alpine
+# Étape de build
+FROM node:18-alpine as builder
 
-# Cloner le frontend depuis le dépôt Git
-RUN apk add --no-cache git && \
-    git clone https://github.com/Couldevlop/RESTO.git /app
+# Installation de git
+RUN apk add --no-cache git
 
+# Cloner le frontend
 WORKDIR /app
+RUN git clone https://github.com/Couldevlop/RESTO.git .
 
+# Installation et build
+RUN npm install
+RUN npm run build
 
-# Installer les dépendances et construire l'application
-RUN npm install && npm run build
+# Étape de production
+FROM nginx:alpine
 
-# Exposer le serveur ReactJS (si nécessaire pour le développement)
-EXPOSE 3000
+# Copier les fichiers buildés depuis l'étape précédente
+COPY --from=builder /app/build /usr/share/nginx/html
 
-CMD ["npx", "serve", "-s", "build", "-l", "3000"]
+# Définir les permissions appropriées
+RUN chmod -R 755 /usr/share/nginx/html
+
+# Exposer le port 80 pour Nginx
+EXPOSE 80
+
+# Démarrer Nginx
+CMD ["nginx", "-g", "daemon off;"]
