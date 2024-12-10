@@ -28,10 +28,10 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: resto_ui
-    volumes:
-      -  build_files:/usr/share/nginx/html
     networks:
       - resto_network
+    ports:
+      - "80:80"
 
 
 
@@ -53,27 +53,11 @@ services:
     networks:
       - resto_network
 
-  nginx:
-    image: nginx:alpine
-    container_name: nginx_proxy
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - build_files:/usr/share/nginx/html:ro
-    depends_on:
-      - app
-      - frontend
-    networks:
-      - resto_network
-    restart: unless-stopped
-
 networks:
   resto_network:
     name: resto_network
     driver: bridge
 
 volumes:
-  build_files: # Volume partagé pour les fichiers buildés
   db_data:
     name: resto_db_data

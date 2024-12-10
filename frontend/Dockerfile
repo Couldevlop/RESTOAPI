@@ -11,18 +11,18 @@ RUN git clone https://github.com/Couldevlop/RESTO.git .
 # Installation et build
 RUN npm install
 RUN npm run build
+RUN ls -la /app/build  # Pour vérifier que le build existe
 
 # Étape de production
 FROM nginx:alpine
 
-# Copier les fichiers buildés depuis l'étape précédente
+# Copier les fichiers buildés
 COPY --from=builder /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Définir les permissions appropriées
-RUN chmod -R 755 /usr/share/nginx/html
+# Vérifier que les fichiers sont bien copiés
+RUN ls -la /usr/share/nginx/html
 
-# Exposer le port 80 pour Nginx
 EXPOSE 80
 
-# Démarrer Nginx
 CMD ["nginx", "-g", "daemon off;"]
