@@ -31,7 +31,7 @@ services:
     networks:
       - resto_network
     ports:
-      - "80:80"
+      - "3000:3000"
 
   mysql_db:
     image: mysql:8.0
