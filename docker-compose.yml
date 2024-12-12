@@ -10,6 +10,7 @@ services:
       - ./frontend/build:/app/frontend/build
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+      - SPRING_PROFILES_ACTIVE=h2
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_db:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false
       - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
       - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
