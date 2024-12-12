@@ -9,10 +9,10 @@ services:
     volumes:
       - ./frontend/build:/app/frontend/build
     environment:
-      - SPRING_PROFILES_ACTIVE=h2
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql_db:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false
-      - SPRING_DATASOURCE_USERNAME=${MYSQL_USER}
-      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-h2} # Définit h2 comme profil par défaut
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL:-jdbc:h2:mem:restodb} # Défaut pour H2
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-sa} # Défaut pour H2
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-} # Défaut pour H2
       - SERVER_PORT=4000
     ports:
       - "4000:4000"
